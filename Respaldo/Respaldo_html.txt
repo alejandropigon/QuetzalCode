@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sitec - Ingeniería y Tecnología</title>
+    <link rel="stylesheet" href="css/pagina.css">
+</head>
+<body>
+    <header class="encabezado-principal">
+        <div class="header-content">
+            <div class="logo-container">
+                <img src="Imagenes/Logo1.png" alt="Logo de la empresa" class="logo">
+                <span class="eslogan">Ingeniería y tecnología <br> a tu servicio</span>
+            </div>
+            <h1 class="titulo-principal">SITEC</h1>
+        </div>
+    </header>
+
+    <!-- Menú de navegación -->
+    <nav class="menu-navegacion">
+        <ul>
+            <li><a href="#inicio">Inicio</a></li>
+            <li><a href="#nosotros">Nosotros</a></li>
+            <li><a href="#servicios">Servicios</a></li>
+            <li><a href="#productos">Productos</a></li>
+            <li><a href="#contacto">Contacto</a></li>
+        </ul>
+    </nav>
+    <main>
+         <section id="inicio" class="seccion">
+            <div class="contenido-central">
+                <h1 class="nombre-empresa">SITEC</h1>
+                <p>¡Bienvenido a Sitec!</p>
+                <p style="text-align:justify, center;">Somos un equipo comprometido con el desarrollo de soluciones tecnológicas innovadoras, enfocadas en mejorar la calidad de vida<br>de las personas mediante el uso de la tecnología.En este espacio encontrarás información sobre nuestro proyecto, nuestra filosofía<br>de trabajo y las soluciones que desarrollamos, siempre con un enfoque humano, responsable y orientado a la mejora continua.Te<br>invitamos a conocer más sobre nosotros y a formar parte de esta iniciativa que busca generar un impacto positivo a través de la<br>innovación.</p>
+                <img src="/Imagenes/Logo.png" alt="Logo" width=900px>
+            </div>
+            <br>
+        <section id="nosotros" class="seccion">
+            <div class="contenido-seccion">
+                <h2>Nosotros</h2>
+                <p style="text-align:justify, center;">En SITEC somos una empresa especializada en sistemas y tecnología, dedicada al desarrollo de soluciones digitales integrales <br> que apoyan a empresas y organizaciones en su proceso de transformación digital. Trabajamos bajo principios de ingeniería, calidad <br>y eficiencia, desarrollando software y soluciones web confiables, seguras y adaptadas a las necesidades específicas de cada cliente.<br>Nuestro enfoque se basa en el análisis, la planificación y la correcta implementación tecnológica para garantizar resultados funcionales y<br>sostenibles. En SITEC creemos que la tecnología es una herramienta estratégica para optimizar procesos, mejorar la operación y fortalecer <br> la presencia digital. Por ello, ofrecemos un acompañamiento profesional en cada etapa del proyecto, convirtiéndonos en un aliado tecnológico<br>confiable para nuestros clientes</p>
+                <br>
+                <h2>Misión, Visión y Valores</h2>
+                <br>
+                <img src="Imagenes/Misiión_y_Vision.png" alt="Misión_Visión" width="900px">
+                <br>
+                <h2>Valores</h2>               
+                <img src="Imagenes/valores_empresariales.png" alt="Valores_Empresariales" width="900px">
+                <br>
+                <h2>Historia</h2>
+                <img src="Imagenes/Historia.png" alt="Historia" width="900px">
+                <h2>Cultura</h2>
+                <img src="Imagenes/Cultura Organizacional.png" alt="Cultura_Organizacional" width="900px">
+                <h2>Equipo</h2>
+                <img src="Imagenes/Equipo.png" alt="Equipo" width="900px">
+            </div>
+        <section id="Servicios" class="Servicios">
+            <div class="contenido-servicios"></div>
+            <h2>Servicios</h2>
+            <p>En SITEC ofrecemos soluciones en sistemas y tecnología orientadas a cubrir las necesidades digitales de empresas, emprendedores y organizaciones, mediante un enfoque profesional, estructurado y alineado a objetivos específicos.</p>
+            <img src="Imagenes/Servicios.png" alt="Servicios"width="900px">
+        </section>
+        </section>
+    </main>
+    <!-- Pie de página -->
+    <footer>
+        <p>&copy; 2026. Todos los derechos reservados.</p>
+    </footer>
+</body>
+</html>

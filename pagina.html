@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QuetzalCode | Desarrollo de Software Avanzado</title>
+    
+    <!-- Fuentes de Google: Space Grotesk para títulos (tecnológico) e Inter para texto -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS para el diseño base -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Space Grotesk', 'sans-serif'],
+                    },
+                    colors: {
+                        quetzal: {
+                            green: '#10B981', // Esmeralda
+                            blue: '#06B6D4',  // Cyan
+                            dark: '#0f172a',  // Slate 900
+                            darker: '#020617' // Slate 950
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Font Awesome para iconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- ========================================== -->
+    <!-- SECCIÓN CSS (Estilos y Animaciones)        -->
+    <!-- ========================================== -->
+    <style>
+        body {
+            background-color: #020617;
+            color: #f8fafc;
+            overflow-x: hidden;
+        }
+
+        /* Utilidad para cristal (Glassmorphism) */
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        /* Animación de texto degradado continuo */
+        .text-gradient-animated {
+            background: linear-gradient(to right, #10B981, #06B6D4, #3B82F6, #10B981);
+            background-size: 300% auto;
+            color: transparent;
+            -webkit-background-clip: text;
+            background-clip: text;
+            animation: shine 4s linear infinite;
+        }
+
+        @keyframes shine {
+            to { background-position: 300% center; }
+        }
+
+        /* Animaciones flotantes para elementos visuales */
+        .float-slow {
+            animation: float 6s ease-in-out infinite;
+        }
+        .float-fast {
+            animation: float 4s ease-in-out infinite reverse;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+            100% { transform: translateY(0px); }
+        }
+
+        /* Sistema de revelado al hacer scroll */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.8s cubic-bezier(0.5, 0, 0, 1);
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Efecto de resplandor (Glow) en hover */
+        .glow-hover {
+            transition: all 0.3s ease;
+        }
+        .glow-hover:hover {
+            box-shadow: 0 0 25px rgba(16, 185, 129, 0.4);
+            transform: translateY(-5px);
+            border-color: rgba(16, 185, 129, 0.5);
+        }
+
+        /* Estilos para las tarjetas de proyectos */
+        .project-card {
+            position: relative;
+            overflow: hidden;
+            border-radius: 1.5rem;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .project-card:hover {
+            transform: translateY(-10px) scale(1.02);
+        }
+
+        .project-card:hover .project-overlay {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .project-card:hover .project-image {
+            transform: scale(1.1);
+        }
+
+        .project-image {
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .project-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, 
+                rgba(2, 6, 23, 0.95) 0%,
+                rgba(16, 185, 129, 0.2) 50%,
+                transparent 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 2rem;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            backdrop-filter: blur(2px);
+        }
+
+        .project-tag {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            background: rgba(16, 185, 129, 0.2);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            color: #10B981;
+            margin-right: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Fondo de red de partículas (Canvas) */
+        #particle-network {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* Personalización barra de desplazamiento */
+        ::-webkit-scrollbar { width: 10px; }
+        ::-webkit-scrollbar-track { background: #0f172a; }
+        ::-webkit-scrollbar-thumb { background: #10B981; border-radius: 5px; }
+        ::-webkit-scrollbar-thumb:hover { background: #06B6D4; }
+    </style>
+</head>
+<body class="antialiased selection:bg-quetzal-green selection:text-white relative">
+
+    <!-- Canvas para el fondo animado de partículas -->
+    <canvas id="particle-network"></canvas>
+
+    <!-- ========================================== -->
+    <!-- SECCIÓN HTML (Estructura de la página)     -->
+    <!-- ========================================== -->
+
+    <!-- Navbar - Versión Mejorada con tu Logo -->
+    <header class="fixed w-full top-0 z-50 glass-panel border-b-0 transition-all duration-300" id="navbar">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                
+                <!-- Logo QuetzalCode con tu imagen personalizada -->
+                <div class="flex-shrink-0 flex items-center cursor-pointer group">
+                    <!-- Tu logo desde la carpeta Imagenes/Logo.png -->
+                    <img src="Imagenes/Logo.png" 
+                         alt="QuetzalCode Logo" 
+                         class="h-12 w-auto md:h-14 lg:h-16 object-contain mr-3 transform group-hover:scale-105 transition-transform duration-300">
+                    
+                    <!-- Texto de la marca con tamaño balanceado -->
+                    <span class="font-display font-bold text-xl md:text-2xl tracking-tight text-white">
+                        QUETZAL<span class="text-transparent bg-clip-text bg-gradient-to-r from-quetzal-green to-quetzal-blue">CODE</span>
+                    </span>
+                </div>
+
+                <!-- Menú de navegación Desktop -->
+                <nav class="hidden md:flex space-x-8">
+                    <a href="#inicio" class="text-gray-300 hover:text-quetzal-green transition-colors text-sm font-medium">Inicio</a>
+                    <a href="#servicios" class="text-gray-300 hover:text-quetzal-green transition-colors text-sm font-medium">Servicios</a>
+                    <a href="#proyectos" class="text-gray-300 hover:text-quetzal-green transition-colors text-sm font-medium">Proyectos</a>
+                    <a href="#nosotros" class="text-gray-300 hover:text-quetzal-green transition-colors text-sm font-medium">Nosotros</a>
+                    <a href="#contacto" class="text-gray-300 hover:text-quetzal-green transition-colors text-sm font-medium">Contacto</a>
+                </nav>
+
+                <!-- Botón CTA Desktop -->
+                <div class="hidden md:flex">
+                    <a href="#contacto" class="relative inline-flex items-center justify-center px-6 py-2.5 overflow-hidden font-medium text-white rounded-full bg-gradient-to-r from-quetzal-green to-quetzal-blue hover:from-emerald-400 hover:to-cyan-400 shadow-[0_0_15px_rgba(16,185,129,0.3)] transition-all duration-300 transform hover:scale-105">
+                        <span class="font-semibold">Iniciar Proyecto</span>
+                    </a>
+                </div>
+
+                <!-- Botón Menú Mobile -->
+                <div class="md:hidden flex items-center">
+                    <button id="mobile-menu-btn" class="text-gray-300 hover:text-white focus:outline-none">
+                        <i class="fas fa-bars text-2xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Menú Mobile Desplegable -->
+        <div id="mobile-menu" class="hidden md:hidden glass-panel border-t border-white/10">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3 text-center">
+                <a href="#inicio" class="block px-3 py-2 text-base font-medium text-gray-300 hover:text-quetzal-green">Inicio</a>
+                <a href="#servicios" class="block px-3 py-2 text-base font-medium text-gray-300 hover:text-quetzal-green">Servicios</a>
+                <a href="#proyectos" class="block px-3 py-2 text-base font-medium text-gray-300 hover:text-quetzal-green">Proyectos</a>
+                <a href="#nosotros" class="block px-3 py-2 text-base font-medium text-gray-300 hover:text-quetzal-green">Nosotros</a>
+                <a href="#contacto" class="block px-3 py-2 text-base font-medium text-quetzal-blue">Iniciar Proyecto</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Sección Hero -->
+    <section id="inicio" class="relative pt-32 pb-20 lg:pt-48 lg:pb-32 overflow-hidden min-h-screen flex items-center">
+        <!-- Elementos decorativos de fondo -->
+        <div class="absolute top-1/4 left-1/4 w-96 h-96 bg-quetzal-green/20 rounded-full blur-[100px] pointer-events-none"></div>
+        <div class="absolute bottom-1/4 right-1/4 w-96 h-96 bg-quetzal-blue/20 rounded-full blur-[100px] pointer-events-none"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
+            <div class="inline-flex items-center px-4 py-2 rounded-full glass-panel mb-8 border-quetzal-green/30 reveal">
+                <span class="w-2 h-2 rounded-full bg-quetzal-green animate-pulse mr-2"></span>
+                <span class="text-sm font-medium text-gray-300">Innovación tecnológica sin límites</span>
+            </div>
+            
+            <h1 class="text-5xl md:text-7xl font-display font-bold tracking-tight mb-6 reveal reveal-delay-1">
+                Desarrollo de Software <br class="hidden md:block" />
+                a la altura de tus <span class="text-gradient-animated">ideas.</span>
+            </h1>
+            
+            <p class="mt-6 max-w-2xl mx-auto text-lg md:text-xl text-gray-400 reveal reveal-delay-2">
+                En <strong>QuetzalCode</strong>, transformamos problemas complejos en soluciones digitales elegantes, escalables y de alto rendimiento. Construimos el futuro de tu empresa hoy.
+            </p>
+            
+            <div class="mt-10 flex flex-col sm:flex-row justify-center gap-4 reveal reveal-delay-3">
+                <a href="#servicios" class="px-8 py-4 rounded-full font-semibold text-white bg-gradient-to-r from-quetzal-green to-quetzal-blue hover:shadow-[0_0_20px_rgba(6,182,212,0.4)] transition-all duration-300 transform hover:-translate-y-1">
+                    Descubre cómo
+                </a>
+                <a href="#contacto" class="px-8 py-4 rounded-full font-semibold text-white glass-panel hover:bg-white/10 transition-all duration-300 transform hover:-translate-y-1">
+                    Hablemos de tu proyecto
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sección Servicios -->
+    <section id="servicios" class="py-24 relative z-10 bg-quetzal-darker/80 backdrop-blur-sm border-t border-white/5">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 reveal">
+                <h2 class="text-sm font-bold tracking-widest text-quetzal-green uppercase mb-2">Nuestras Soluciones</h2>
+                <h3 class="text-3xl md:text-5xl font-display font-bold text-white">Servicios Especializados</h3>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Tarjeta Servicio 1 -->
+                <div class="glass-panel p-8 rounded-2xl glow-hover reveal">
+                    <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-quetzal-green/20 to-quetzal-blue/20 flex items-center justify-center mb-6 text-quetzal-green text-2xl border border-quetzal-green/30">
+                        <i class="fas fa-code"></i>
+                    </div>
+                    <h4 class="text-xl font-bold mb-3 text-white">Desarrollo Web Custom</h4>
+                    <p class="text-gray-400 text-sm leading-relaxed">
+                        Creamos plataformas web a medida, desde landing pages dinámicas hasta sistemas empresariales complejos y escalables utilizando las últimas tecnologías.
+                    </p>
+                </div>
+
+                <!-- Tarjeta Servicio 2 -->
+                <div class="glass-panel p-8 rounded-2xl glow-hover reveal">
+                    <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-quetzal-green/20 to-quetzal-blue/20 flex items-center justify-center mb-6 text-quetzal-blue text-2xl border border-quetzal-blue/30">
+                        <i class="fas fa-mobile-screen-button"></i>
+                    </div>
+                    <h4 class="text-xl font-bold mb-3 text-white">Apps Móviles</h4>
+                    <p class="text-gray-400 text-sm leading-relaxed">
+                        Llevamos tu negocio al bolsillo de tus clientes. Desarrollo nativo y multiplataforma con interfaces intuitivas y un rendimiento excepcional.
+                    </p>
+                </div>
+
+                <!-- Tarjeta Servicio 3 -->
+                <div class="glass-panel p-8 rounded-2xl glow-hover reveal">
+                    <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-quetzal-green/20 to-quetzal-blue/20 flex items-center justify-center mb-6 text-blue-400 text-2xl border border-blue-400/30">
+                        <i class="fas fa-cloud"></i>
+                    </div>
+                    <h4 class="text-xl font-bold mb-3 text-white">Consultoría Cloud</h4>
+                    <p class="text-gray-400 text-sm leading-relaxed">
+                        Migración, arquitectura y optimización en la nube (AWS, Azure, Google Cloud). Aseguramos que tu infraestructura sea segura y costo-eficiente.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- NUEVA SECCIÓN: PROYECTOS                   -->
+    <!-- ========================================== -->
+    <section id="proyectos" class="py-24 relative z-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <!-- Encabezado de la sección -->
+            <div class="text-center mb-16 reveal">
+                <h2 class="text-sm font-bold tracking-widest text-quetzal-green uppercase mb-2">Nuestro Portafolio</h2>
+                <h3 class="text-3xl md:text-5xl font-display font-bold text-white mb-4">Proyectos Destacados</h3>
+                <p class="text-gray-400 max-w-2xl mx-auto">
+                    Hemos transformado ideas en soluciones digitales exitosas para empresas de diversos sectores. 
+                    Estos son algunos de nuestros trabajos más representativos.
+                </p>
+            </div>
+
+            <!-- Grid de Proyectos -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                
+                <!-- Proyecto 1: Fintech Platform -->
+                <div class="project-card glass-panel reveal" style="height: 400px;">
+                    <img src="https://images.unsplash.com/photo-1563986768609-322da13575f3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" 
+                         alt="Plataforma Fintech" 
+                         class="project-image">
+                    <div class="project-overlay">
+                        <div class="mb-3">
+                            <span class="project-tag">React</span>
+                            <span class="project-tag">Node.js</span>
+                            <span class="project-tag">MongoDB</span>
+                        </div>
+                        <h4 class="text-2xl font-bold text-white mb-2">FinTech Pro</h4>
+                        <p class="text-gray-300 text-sm mb-4">
+                            Plataforma de gestión financiera para startups. Procesa más de 10,000 transacciones diarias.
+                        </p>
+                        <div class="flex items-center text-quetzal-green">
+                            <i class="fas fa-chart-line mr-2"></i>
+                            <span class="text-sm font-medium">+40% eficiencia operativa</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Proyecto 2: E-commerce Marketplace -->
+                <div class="project-card glass-panel reveal" style="height: 400px;">
+                    <img src="https://images.unsplash.com/photo-1556742044-3c52d6e88c62?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" 
+                         alt="Marketplace" 
+                         class="project-image">
+                    <div class="project-overlay">
+                        <div class="mb-3">
+                            <span class="project-tag">Next.js</span>
+                            <span class="project-tag">GraphQL</span>
+                            <span class="project-tag">AWS</span>
+                        </div>
+                        <h4 class="text-2xl font-bold text-white mb-2">MercadoGlobal</h4>
+                        <p class="text-gray-300 text-sm mb-4">
+                            Marketplace B2B con +5,000 productos. Integración con múltiples pasarelas de pago.
+                        </p>
+                        <div class="flex items-center text-quetzal-green">
+                            <i class="fas fa-shopping-cart mr-2"></i>
+                            <span class="text-sm font-medium">+200 vendors activos</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Proyecto 3: HealthTech App -->
+                <div class="project-card glass-panel reveal" style="height: 400px;">
+                    <img src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" 
+                         alt="HealthTech App" 
+                         class="project-image">
+                    <div class="project-overlay">
+                        <div class="mb-3">
+                            <span class="project-tag">React Native</span>
+                            <span class="project-tag">Firebase</span>
+                            <span class="project-tag">Redux</span>
+                        </div>
+                        <h4 class="text-2xl font-bold text-white mb-2">VitalCheck</h4>
+                        <p class="text-gray-300 text-sm mb-4">
+                            App de telemedicina con 50,000+ descargas. Consultas médicas en tiempo real.
+                        </p>
+                        <div class="flex items-center text-quetzal-green">
+                            <i class="fas fa-heartbeat mr-2"></i>
+                            <span class="text-sm font-medium">4.8 ★ en stores</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Proyecto 4: SaaS Analytics -->
+                <div class="project-card glass-panel reveal" style="height: 400px;">
+                    <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" 
+                         alt="Analytics Dashboard" 
+                         class="project-image">
+                    <div class="project-overlay">
+                        <div class="mb-3">
+                            <span class="project-tag">Vue.js</span>
+                            <span class="project-tag">Python</span>
+                            <span class="project-tag">Django</span>
+                        </div>
+                        <h4 class="text-2xl font-bold text-white mb-2">DataSphere</h4>
+                        <p class="text-gray-300 text-sm mb-4">
+                            Dashboard de analytics para e-commerce. Visualización de datos en tiempo real.
+                        </p>
+                        <div class="flex items-center text-quetzal-green">
+                            <i class="fas fa-database mr-2"></i>
+                            <span class="text-sm font-medium">+1M datos/día</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Proyecto 5: Real Estate Platform -->
+                <div class="project-card glass-panel reveal" style="height: 400px;">
+                    <img src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" 
+                         alt="Real Estate" 
+                         class="project-image">
+                    <div class="project-overlay">
+                        <div class="mb-3">
+                            <span class="project-tag">Angular</span>
+                            <span class="project-tag">PostgreSQL</span>
+                            <span class="project-tag">Redis</span>
+                        </div>
+                        <h4 class="text-2xl font-bold text-white mb-2">InmobiliarIA</h4>
+                        <p class="text-gray-300 text-sm mb-4">
+                            Plataforma de bienes raíces con tours virtuales 360° y recomendaciones IA.
+                        </p>
+                        <div class="flex items-center text-quetzal-green">
+                            <i class="fas fa-home mr-2"></i>
+                            <span class="text-sm font-medium">+3,500 propiedades</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Proyecto 6: EdTech Platform -->
+                <div class="project-card glass-panel reveal" style="height: 400px;">
+                    <img src="https://images.unsplash.com/photo-1501504905252-473c47e087f8?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" 
+                         alt="EdTech Platform" 
+                         class="project-image">
+                    <div class="project-overlay">
+                        <div class="mb-3">
+                            <span class="project-tag">React</span>
+                            <span class="project-tag">Node.js</span>
+                            <span class="project-tag">MongoDB</span>
+                        </div>
+                        <h4 class="text-2xl font-bold text-white mb-2">AprendeYa</h4>
+                        <p class="text-gray-300 text-sm mb-4">
+                            Plataforma educativa con cursos interactivos y seguimiento de progreso.
+                        </p>
+                        <div class="flex items-center text-quetzal-green">
+                            <i class="fas fa-graduation-cap mr-2"></i>
+                            <span class="text-sm font-medium">+15,000 estudiantes</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Botón para ver más proyectos -->
+            <div class="text-center mt-12 reveal">
+                <a href="#contacto" class="inline-flex items-center px-8 py-4 rounded-full font-semibold text-white glass-panel hover:bg-white/10 transition-all duration-300 transform hover:-translate-y-1">
+                    Ver todos los proyectos
+                    <i class="fas fa-arrow-right ml-2"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sección Tecnologías (Marquesina animada) -->
+    <section id="nosotros" class="py-20 relative z-10 overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center mb-12 reveal">
+            <h3 class="text-2xl font-display font-bold text-gray-300">Tecnologías que dominamos</h3>
+        </div>
+        
+        <!-- Carrusel infinito mediante CSS -->
+        <div class="relative flex overflow-x-hidden group">
+            <div class="py-4 animate-marquee whitespace-nowrap flex items-center gap-16 px-8 text-4xl text-gray-500 opacity-60">
+                <i class="fab fa-react hover:text-[#61DAFB] transition-colors cursor-pointer"></i>
+                <i class="fab fa-js hover:text-[#F7DF1E] transition-colors cursor-pointer"></i>
+                <i class="fab fa-python hover:text-[#3776AB] transition-colors cursor-pointer"></i>
+                <i class="fab fa-node hover:text-[#339933] transition-colors cursor-pointer"></i>
+                <i class="fab fa-aws hover:text-[#FF9900] transition-colors cursor-pointer"></i>
+                <i class="fab fa-docker hover:text-[#2496ED] transition-colors cursor-pointer"></i>
+                <i class="fab fa-git-alt hover:text-[#F05032] transition-colors cursor-pointer"></i>
+                <i class="fab fa-java hover:text-[#007396] transition-colors cursor-pointer"></i>
+            </div>
+            <!-- Duplicado para efecto infinito -->
+            <div class="absolute top-0 py-4 animate-marquee2 whitespace-nowrap flex items-center gap-16 px-8 text-4xl text-gray-500 opacity-60" style="margin-left: 100%;">
+                <i class="fab fa-react hover:text-[#61DAFB] transition-colors cursor-pointer"></i>
+                <i class="fab fa-js hover:text-[#F7DF1E] transition-colors cursor-pointer"></i>
+                <i class="fab fa-python hover:text-[#3776AB] transition-colors cursor-pointer"></i>
+                <i class="fab fa-node hover:text-[#339933] transition-colors cursor-pointer"></i>
+                <i class="fab fa-aws hover:text-[#FF9900] transition-colors cursor-pointer"></i>
+                <i class="fab fa-docker hover:text-[#2496ED] transition-colors cursor-pointer"></i>
+                <i class="fab fa-git-alt hover:text-[#F05032] transition-colors cursor-pointer"></i>
+                <i class="fab fa-java hover:text-[#007396] transition-colors cursor-pointer"></i>
+            </div>
+        </div>
+        
+        <style>
+            .animate-marquee { animation: marquee 25s linear infinite; }
+            .animate-marquee2 { animation: marquee2 25s linear infinite; }
+            @keyframes marquee { 0% { transform: translateX(0%); } 100% { transform: translateX(-100%); } }
+            @keyframes marquee2 { 0% { transform: translateX(100%); } 100% { transform: translateX(0%); } }
+            .group:hover .animate-marquee, .group:hover .animate-marquee2 { animation-play-state: paused; }
+        </style>
+    </section>
+
+    <!-- Sección Contacto -->
+    <section id="contacto" class="py-24 relative z-10 bg-gradient-to-b from-transparent to-quetzal-dark/80">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="glass-panel rounded-3xl p-8 md:p-12 relative overflow-hidden reveal">
+                <!-- Decoración circular en la tarjeta -->
+                <div class="absolute -top-24 -right-24 w-48 h-48 bg-quetzal-blue/20 rounded-full blur-[50px]"></div>
+                
+                <div class="text-center mb-10 relative z-10">
+                    <h2 class="text-3xl md:text-5xl font-display font-bold text-white mb-4">Iniciemos tu proyecto</h2>
+                    <p class="text-gray-400">Cuéntanos sobre tu idea. Nuestro equipo de expertos te contactará en breve.</p>
+                </div>
+
+                <form class="relative z-10 space-y-6" onsubmit="event.preventDefault(); alert('¡Gracias por contactar a QuetzalCode! Este es un demo, la funcionalidad de envío puede conectarse al backend.');">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="relative">
+                            <input type="text" id="nombre" class="peer w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-transparent focus:outline-none focus:border-quetzal-green transition-colors" placeholder="Nombre">
+                            <label for="nombre" class="absolute left-4 -top-2.5 text-xs text-quetzal-green bg-quetzal-dark px-1 transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-500 peer-placeholder-shown:top-3 peer-placeholder-shown:bg-transparent peer-focus:-top-2.5 peer-focus:text-xs peer-focus:text-quetzal-green peer-focus:bg-quetzal-dark rounded">Nombre</label>
+                        </div>
+                        <div class="relative">
+                            <input type="email" id="email" class="peer w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-transparent focus:outline-none focus:border-quetzal-green transition-colors" placeholder="Email" required>
+                            <label for="email" class="absolute left-4 -top-2.5 text-xs text-quetzal-green bg-quetzal-dark px-1 transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-500 peer-placeholder-shown:top-3 peer-placeholder-shown:bg-transparent peer-focus:-top-2.5 peer-focus:text-xs peer-focus:text-quetzal-green peer-focus:bg-quetzal-dark rounded">Correo Electrónico</label>
+                        </div>
+                    </div>
+                    <div class="relative">
+                        <textarea id="mensaje" rows="4" class="peer w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-transparent focus:outline-none focus:border-quetzal-green transition-colors" placeholder="Mensaje" required></textarea>
+                        <label for="mensaje" class="absolute left-4 -top-2.5 text-xs text-quetzal-green bg-quetzal-dark px-1 transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-500 peer-placeholder-shown:top-3 peer-placeholder-shown:bg-transparent peer-focus:-top-2.5 peer-focus:text-xs peer-focus:text-quetzal-green peer-focus:bg-quetzal-dark rounded">Detalles del proyecto</label>
+                    </div>
+                    <button type="submit" class="w-full py-4 rounded-xl font-bold text-white bg-gradient-to-r from-quetzal-green to-quetzal-blue hover:from-emerald-500 hover:to-cyan-500 shadow-[0_4px_15px_rgba(16,185,129,0.3)] hover:shadow-[0_6px_25px_rgba(6,182,212,0.4)] transition-all duration-300 transform hover:-translate-y-1">
+                        Enviar Mensaje <i class="fas fa-paper-plane ml-2"></i>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="border-t border-white/10 glass-panel relative z-10 pt-16 pb-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-12 mb-12">
+                <div>
+                    <div class="flex items-center mb-6">
+                        <!-- Logo en el footer -->
+                        <img src="Imagenes/Logo.png" 
+                             alt="QuetzalCode Logo" 
+                             class="h-10 w-auto object-contain mr-2">
+                        <span class="font-display font-bold text-lg text-white">QUETZAL<span class="text-quetzal-green">CODE</span></span>
+                    </div>
+                    <p class="text-gray-400 text-sm">
+                        Desarrollo de software de vanguardia. Elevamos el estándar digital de tu empresa con código limpio y diseños excepcionales.
+                    </p>
+                </div>
+                <div>
+                    <h4 class="text-white font-bold mb-6">Enlaces Rápidos</h4>
+                    <ul class="space-y-3 text-sm text-gray-400">
+                        <li><a href="#inicio" class="hover:text-quetzal-green transition-colors">Inicio</a></li>
+                        <li><a href="#servicios" class="hover:text-quetzal-green transition-colors">Servicios</a></li>
+                        <li><a href="#proyectos" class="hover:text-quetzal-green transition-colors">Proyectos</a></li>
+                        <li><a href="#nosotros" class="hover:text-quetzal-green transition-colors">Sobre Nosotros</a></li>
+                        <li><a href="#contacto" class="hover:text-quetzal-green transition-colors">Contacto</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-white font-bold mb-6">Síguenos</h4>
+                    <div class="flex space-x-4">
+                        <a href="#" class="w-10 h-10 rounded-full glass-panel flex items-center justify-center text-gray-300 hover:text-white hover:bg-quetzal-green transition-all duration-300"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="w-10 h-10 rounded-full glass-panel flex items-center justify-center text-gray-300 hover:text-white hover:bg-quetzal-blue transition-all duration-300"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#" class="w-10 h-10 rounded-full glass-panel flex items-center justify-center text-gray-300 hover:text-white hover:bg-white/20 transition-all duration-300"><i class="fab fa-github"></i></a>
+                        <a href="#" class="w-10 h-10 rounded-full glass-panel flex items-center justify-center text-gray-300 hover:text-white hover:bg-pink-600 transition-all duration-300"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center text-xs text-gray-500">
+                <p>&copy; 2026 QuetzalCode. Todos los derechos reservados.</p>
+                <div class="mt-4 md:mt-0 space-x-4">
+                    <a href="#" class="hover:text-gray-300">Política de Privacidad</a>
+                    <a href="#" class="hover:text-gray-300">Términos de Servicio</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+
+    <!-- ========================================== -->
+    <!-- SECCIÓN JAVASCRIPT (Lógica y Animaciones)  -->
+    <!-- ========================================== -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            
+            // --- 1. Menú Móvil ---
+            const btn = document.getElementById('mobile-menu-btn');
+            const menu = document.getElementById('mobile-menu');
+
+            if (btn && menu) {
+                btn.addEventListener('click', () => {
+                    menu.classList.toggle('hidden');
+                });
+
+                // Cerrar menú al hacer click en un enlace
+                document.querySelectorAll('#mobile-menu a').forEach(link => {
+                    link.addEventListener('click', () => {
+                        menu.classList.add('hidden');
+                    });
+                });
+            }
+
+            // --- 2. Efecto Glass en Navbar al hacer Scroll ---
+            const navbar = document.getElementById('navbar');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 20) {
+                    navbar.classList.add('shadow-lg', 'bg-quetzal-darker/90');
+                    navbar.classList.remove('border-b-0');
+                } else {
+                    navbar.classList.remove('shadow-lg', 'bg-quetzal-darker/90');
+                    navbar.classList.add('border-b-0');
+                }
+            });
+
+            // --- 3. Animaciones de Revelado al hacer Scroll (Intersection Observer) ---
+            const reveals = document.querySelectorAll('.reveal');
+            
+            const revealOptions = {
+                threshold: 0.15,
+                rootMargin: "0px 0px -50px 0px"
+            };
+
+            const revealOnScroll = new IntersectionObserver(function(entries, observer) {
+                entries.forEach(entry => {
+                    if (!entry.isIntersecting) return;
+                    
+                    entry.target.classList.add('active');
+                    observer.unobserve(entry.target);
+                });
+            }, revealOptions);
+
+            reveals.forEach(reveal => {
+                revealOnScroll.observe(reveal);
+            });
+
+            // --- 4. Sistema Interactivo de Partículas en el Fondo (Canvas) ---
+            const canvas = document.getElementById('particle-network');
+            if (!canvas) return;
+            
+            const ctx = canvas.getContext('2d');
+            let particlesArray;
+
+            // Ajustar canvas a la ventana
+            function setCanvasSize() {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+            }
+            setCanvasSize();
+
+            // Posición del ratón
+            let mouse = {
+                x: null,
+                y: null,
+                radius: (canvas.height/80) * (canvas.width/80)
+            }
+
+            window.addEventListener('mousemove', function(event) {
+                mouse.x = event.x;
+                mouse.y = event.y;
+            });
+            
+            window.addEventListener('mouseout', function() {
+                mouse.x = undefined;
+                mouse.y = undefined;
+            });
+            
+            window.addEventListener('resize', function() {
+                setCanvasSize();
+                mouse.radius = (canvas.height/80) * (canvas.width/80);
+                initParticles();
+            });
+
+            // Clase Partícula
+            class Particle {
+                constructor(x, y, directionX, directionY, size, color) {
+                    this.x = x;
+                    this.y = y;
+                    this.directionX = directionX;
+                    this.directionY = directionY;
+                    this.size = size;
+                    this.color = color;
+                }
+                
+                draw() {
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2, false);
+                    ctx.fillStyle = this.color;
+                    ctx.fill();
+                }
+
+                update() {
+                    if (this.x > canvas.width || this.x < 0) {
+                        this.directionX = -this.directionX;
+                    }
+                    if (this.y > canvas.height || this.y < 0) {
+                        this.directionY = -this.directionY;
+                    }
+
+                    // Interacción con el ratón
+                    let dx = mouse.x - this.x;
+                    let dy = mouse.y - this.y;
+                    let distance = Math.sqrt(dx*dx + dy*dy);
+                    if (distance < mouse.radius + this.size) {
+                        if (mouse.x < this.x && this.x < canvas.width - this.size * 10) {
+                            this.x += 1;
+                        }
+                        if (mouse.x > this.x && this.x > this.size * 10) {
+                            this.x -= 1;
+                        }
+                        if (mouse.y < this.y && this.y < canvas.height - this.size * 10) {
+                            this.y += 1;
+                        }
+                        if (mouse.y > this.y && this.y > this.size * 10) {
+                            this.y -= 1;
+                        }
+                    }
+
+                    this.x += this.directionX;
+                    this.y += this.directionY;
+                    this.draw();
+                }
+            }
+
+            // Inicializar array de partículas
+            function initParticles() {
+                particlesArray = [];
+                let numberOfParticles = (canvas.height * canvas.width) / 12000;
+                
+                const colors = ['#10B981', '#06B6D4', '#ffffff', '#3B82F6'];
+
+                for (let i = 0; i < numberOfParticles; i++) {
+                    let size = (Math.random() * 2) + 0.5;
+                    let x = (Math.random() * ((innerWidth - size * 2) - (size * 2)) + size * 2);
+                    let y = (Math.random() * ((innerHeight - size * 2) - (size * 2)) + size * 2);
+                    let directionX = (Math.random() * 0.4) - 0.2;
+                    let directionY = (Math.random() * 0.4) - 0.2;
+                    let color = colors[Math.floor(Math.random() * colors.length)];
+
+                    particlesArray.push(new Particle(x, y, directionX, directionY, size, color));
+                }
+            }
+
+            // Animar y conectar partículas
+            function animateParticles() {
+                requestAnimationFrame(animateParticles);
+                ctx.clearRect(0, 0, innerWidth, innerHeight);
+
+                for (let i = 0; i < particlesArray.length; i++) {
+                    particlesArray[i].update();
+                }
+                connectParticles();
+            }
+
+            // Dibujar líneas entre partículas cercanas
+            function connectParticles() {
+                let opacityValue = 1;
+                for (let a = 0; a < particlesArray.length; a++) {
+                    for (let b = a; b < particlesArray.length; b++) {
+                        let distance = ((particlesArray[a].x - particlesArray[b].x) * (particlesArray[a].x - particlesArray[b].x))
+                                     + ((particlesArray[a].y - particlesArray[b].y) * (particlesArray[a].y - particlesArray[b].y));
+                        
+                        if (distance < (canvas.width/10) * (canvas.height/10)) {
+                            opacityValue = 1 - (distance/20000);
+                            ctx.strokeStyle = `rgba(16, 185, 129, ${opacityValue * 0.2})`;
+                            ctx.lineWidth = 0.5;
+                            ctx.beginPath();
+                            ctx.moveTo(particlesArray[a].x, particlesArray[a].y);
+                            ctx.lineTo(particlesArray[b].x, particlesArray[b].y);
+                            ctx.stroke();
+                        }
+                    }
+                }
+            }
+
+            // Iniciar animación
+            initParticles();
+            animateParticles();
+        });
+    </script>
+</body>
+</html>
