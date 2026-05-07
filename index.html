@@ -155,16 +155,15 @@
             margin-bottom: 0.5rem;
         }
 
-        /* Fondo de partículas */
-        #particle-network {
-            position: fixed;
+        /* Efecto de partículas animadas (tecnológico) */
+        #particles-inicio,
+        #particles-equipo {
+            position: absolute !important;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            z-index: 0;
-            pointer-events: none;
-            opacity: 0.35;
+            z-index: 0 !important;
         }
 
         /* Scrollbar */
@@ -226,20 +225,20 @@
             border-color: rgba(16, 185, 129, 0.3);
         }
 
-        /* Sección de inicio con imagen de fondo */
+        /* Sección de inicio con animación tecnológica */
         .hero-fullscreen {
-            background-image: url('Imagenes/fondo.png');
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
+            background-color: #020617;
+            /* Slate 950, fondo base */
+            background-image: radial-gradient(circle at center, #0f172a 0%, #020617 100%);
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
             position: relative;
+            overflow: hidden;
         }
 
-        /* Capa oscura sobre la imagen */
+        /* Degradado superpuesto para asegurar legibilidad */
         .hero-fullscreen::before {
             content: '';
             position: absolute;
@@ -247,8 +246,9 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: rgba(0, 0, 0, 0.65);
+            background: radial-gradient(circle at center, transparent 0%, rgba(2, 6, 23, 0.7) 100%);
             z-index: 1;
+            pointer-events: none;
         }
 
         .hero-fullscreen>* {
@@ -311,12 +311,11 @@
             margin-right: -50vw;
         }
 
-        /* Sección equipo con fondo de imagen */
+        /* Sección equipo con fondo de animación tecnológica */
         .equipo-fullscreen {
-            background-image: url('Imagenes/Escuela.png');
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
+            background-color: #020617;
+            /* Slate 950 */
+            background-image: linear-gradient(135deg, #0f172a 0%, #020617 100%);
             min-height: auto;
             width: 100vw;
             position: relative;
@@ -325,6 +324,7 @@
             margin-left: -50vw;
             margin-right: -50vw;
             padding: 5rem 2rem;
+            overflow: hidden;
         }
 
         .equipo-fullscreen::before {
@@ -334,8 +334,9 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: rgba(0, 0, 0, 0.78);
+            background: linear-gradient(to bottom, #000000, transparent 15%, transparent 85%, #000000);
             z-index: 1;
+            pointer-events: none;
         }
 
         .equipo-fullscreen>* {
@@ -502,9 +503,6 @@
 
 <body class="antialiased selection:bg-quetzal-green selection:text-white relative bg-white">
 
-    <!-- Canvas para partículas -->
-    <canvas id="particle-network"></canvas>
-
     <div id="app" class="relative z-10">
 
         <!-- NAVBAR NEGRO -->
@@ -588,6 +586,7 @@
 
             <!-- INICIO -->
             <section id="inicio" class="hero-fullscreen">
+                <div id="particles-inicio"></div>
                 <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
                     <div class="reveal">
                         <div
@@ -759,9 +758,10 @@
                 </div>
             </section>
 
-            <!-- SECCIÓN: NUESTRO EQUIPO con fondo Escuela.png y fotos más grandes, Donovan ajustado -->
+            <!-- SECCIÓN: NUESTRO EQUIPO con fondo animado tecnológico -->
             <section id="equipo" class="equipo-fullscreen">
-                <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div id="particles-equipo"></div>
+                <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
                     <div class="text-center mb-12 reveal">
                         <h2 class="text-3xl md:text-5xl font-display font-bold text-white mb-4">Nuestro Equipo</h2>
                     </div>
@@ -952,6 +952,34 @@
             </div>
         </footer>
     </div>
+
+    <!-- Script Particles.js para animación tecnológica -->
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const particlesConfig = {
+                "particles": {
+                    "number": { "value": 60, "density": { "enable": true, "value_area": 800 } },
+                    "color": { "value": ["#10B981", "#06B6D4"] },
+                    "shape": { "type": "circle" },
+                    "opacity": { "value": 0.5, "random": false, "anim": { "enable": true, "speed": 1, "opacity_min": 0.1, "sync": false } },
+                    "size": { "value": 3, "random": true, "anim": { "enable": true, "speed": 2, "size_min": 0.1, "sync": false } },
+                    "line_linked": { "enable": true, "distance": 150, "color": "#06B6D4", "opacity": 0.4, "width": 1 },
+                    "move": { "enable": true, "speed": 1.5, "direction": "none", "random": false, "straight": false, "out_mode": "out", "bounce": false, "attract": { "enable": false } }
+                },
+                "interactivity": {
+                    "detect_on": "canvas",
+                    "events": { "onhover": { "enable": true, "mode": "grab" }, "onclick": { "enable": true, "mode": "push" }, "resize": true },
+                    "modes": { "grab": { "distance": 140, "line_linked": { "opacity": 0.8 } }, "push": { "particles_nb": 3 } }
+                },
+                "retina_detect": true
+            };
+            if (typeof particlesJS !== 'undefined') {
+                particlesJS('particles-inicio', particlesConfig);
+                particlesJS('particles-equipo', particlesConfig);
+            }
+        });
+    </script>
 
     <script>
         let currentSection = 'inicio';
