@@ -526,23 +526,11 @@
                             class="nav-link text-gray-300 hover:text-quetzal-green transition-colors text-sm font-medium active"
                             data-section="inicio">Inicio</a>
 
-                        <!-- Menú desplegable de Servicios -->
-                        <div class="dropdown" id="serviciosDropdown">
-                            <span
-                                class="nav-link text-gray-300 hover:text-quetzal-green transition-colors text-sm font-medium flex items-center gap-1 cursor-pointer"
-                                id="dropdownBtn" data-section="servicios">
-                                Servicios <i class="fas fa-chevron-down text-xs"></i>
-                            </span>
-                            <div class="dropdown-content" id="dropdownMenu">
-                                <a onclick="openServicioDetalle('web')">🌐 Desarrollo Web Custom</a>
-                                <a onclick="openServicioDetalle('apps')">📱 Apps Móviles</a>
-                                <a onclick="openServicioDetalle('cloud')">☁️ Consultoría Cloud</a>
-                            </div>
-                        </div>
-
-                        <a href="#proyectos" onclick="scrollToSection('proyectos')"
+                        <a href="#servicios" onclick="scrollToSection('servicios')"
                             class="nav-link text-gray-300 hover:text-quetzal-green transition-colors text-sm font-medium"
-                            data-section="proyectos">Proyectos</a>
+                            data-section="servicios">Servicios</a>
+
+
                         <a href="#nosotros" onclick="scrollToSection('nosotros')"
                             class="nav-link text-gray-300 hover:text-quetzal-green transition-colors text-sm font-medium"
                             data-section="nosotros">Nosotros</a>
@@ -570,8 +558,7 @@
                         class="mobile-nav-link block px-3 py-2 text-base font-medium text-gray-300 hover:text-quetzal-green">Inicio</a>
                     <a href="#servicios" onclick="scrollToSection('servicios')"
                         class="mobile-nav-link block px-3 py-2 text-base font-medium text-gray-300 hover:text-quetzal-green">Servicios</a>
-                    <a href="#proyectos" onclick="scrollToSection('proyectos')"
-                        class="mobile-nav-link block px-3 py-2 text-base font-medium text-gray-300 hover:text-quetzal-green">Proyectos</a>
+
                     <a href="#nosotros" onclick="scrollToSection('nosotros')"
                         class="mobile-nav-link block px-3 py-2 text-base font-medium text-gray-300 hover:text-quetzal-green">Nosotros</a>
                     <a href="#contacto" onclick="scrollToSection('contacto')"
@@ -631,105 +618,31 @@
                         </h3>
                     </div>
 
-                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
                         <div class="servicio-card reveal glow-hover">
                             <div
                                 class="w-14 h-14 rounded-xl bg-gradient-to-br from-quetzal-green/20 to-quetzal-blue/20 flex items-center justify-center mb-6 text-quetzal-green text-2xl border border-quetzal-green/30">
                                 <i class="fas fa-code"></i>
                             </div>
                             <h4 class="text-xl font-bold mb-3 text-white">Desarrollo Web Custom</h4>
-                            <p class="text-gray-400 text-sm leading-relaxed mb-6">Creamos plataformas web a medida,
+                            <p class="text-gray-400 text-sm leading-relaxed">Creamos plataformas web a medida,
                                 desde landing pages dinámicas hasta sistemas empresariales complejos y escalables.</p>
-                            <button onclick="openServicioDetalle('web')"
-                                class="inline-flex items-center gap-2 text-quetzal-green hover:text-quetzal-blue font-medium text-sm transition-colors">Ver
-                                más <i class="fas fa-arrow-right"></i></button>
                         </div>
                         <div class="servicio-card reveal glow-hover">
                             <div
                                 class="w-14 h-14 rounded-xl bg-gradient-to-br from-quetzal-green/20 to-quetzal-blue/20 flex items-center justify-center mb-6 text-quetzal-blue text-2xl border border-quetzal-blue/30">
-                                <i class="fas fa-mobile-screen-button"></i>
+                                <i class="fas fa-robot"></i>
                             </div>
-                            <h4 class="text-xl font-bold mb-3 text-white">Apps Móviles</h4>
-                            <p class="text-gray-400 text-sm leading-relaxed mb-6">Llevamos tu negocio al bolsillo de tus
-                                clientes. Desarrollo nativo y multiplataforma con interfaces intuitivas.</p>
-                            <button onclick="openServicioDetalle('apps')"
-                                class="inline-flex items-center gap-2 text-quetzal-green hover:text-quetzal-blue font-medium text-sm transition-colors">Ver
-                                más <i class="fas fa-arrow-right"></i></button>
-                        </div>
-                        <div class="servicio-card reveal glow-hover">
-                            <div
-                                class="w-14 h-14 rounded-xl bg-gradient-to-br from-quetzal-green/20 to-quetzal-blue/20 flex items-center justify-center mb-6 text-blue-400 text-2xl border border-blue-400/30">
-                                <i class="fas fa-cloud"></i>
-                            </div>
-                            <h4 class="text-xl font-bold mb-3 text-white">Consultoría Cloud</h4>
-                            <p class="text-gray-400 text-sm leading-relaxed mb-6">Migración, arquitectura y optimización
-                                en la nube (AWS, Azure, Google Cloud). Infraestructura segura y eficiente.</p>
-                            <button onclick="openServicioDetalle('cloud')"
-                                class="inline-flex items-center gap-2 text-quetzal-green hover:text-quetzal-blue font-medium text-sm transition-colors">Ver
-                                más <i class="fas fa-arrow-right"></i></button>
+                            <h4 class="text-xl font-bold mb-3 text-white">Automatización Inteligente de Procesos</h4>
+                            <p class="text-gray-400 text-sm leading-relaxed">Diseño de flujos automatizados para tareas
+                                repetitivas (web scraping, generación de reportes, integración con APIs, etc.).
+                                Eficiencia medida en horas recuperadas.</p>
                         </div>
                     </div>
                 </div>
             </section>
 
-            <!-- PROYECTOS -->
-            <section id="proyectos" class="py-20 lg:py-28 bg-white">
-                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div class="text-center mb-16 reveal">
-                        <h2 class="text-sm font-bold tracking-widest text-quetzal-green uppercase mb-2">Nuestro
-                            Portafolio</h2>
-                        <h3 class="text-3xl md:text-5xl font-display font-bold text-gray-900 mb-3">Proyectos Destacados
-                        </h3>
-                        <p class="text-gray-500 max-w-2xl mx-auto">Hemos transformado ideas en soluciones digitales
-                            exitosas para empresas de diversos sectores.</p>
-                    </div>
-                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                        <div class="project-card reveal" style="height: 380px;"><img
-                                src="https://images.unsplash.com/photo-1563986768609-322da13575f3?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80"
-                                alt="Fintech" class="project-image">
-                            <div class="project-overlay">
-                                <div class="mb-3"><span class="project-tag">React</span><span
-                                        class="project-tag">Node.js</span><span class="project-tag">MongoDB</span></div>
-                                <h4 class="text-2xl font-bold text-white mb-2">FinTech Pro</h4>
-                                <p class="text-gray-300 text-sm mb-3">Plataforma de gestión financiera. +10,000
-                                    transacciones diarias.</p>
-                                <div class="flex items-center text-quetzal-green"><i
-                                        class="fas fa-chart-line mr-2"></i><span class="text-sm font-medium">+40%
-                                        eficiencia</span></div>
-                            </div>
-                        </div>
-                        <div class="project-card reveal" style="height: 380px;"><img
-                                src="https://images.unsplash.com/photo-1556742044-3c52d6e88c62?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80"
-                                alt="Marketplace" class="project-image">
-                            <div class="project-overlay">
-                                <div class="mb-3"><span class="project-tag">Next.js</span><span
-                                        class="project-tag">GraphQL</span><span class="project-tag">AWS</span></div>
-                                <h4 class="text-2xl font-bold text-white mb-2">MercadoGlobal</h4>
-                                <p class="text-gray-300 text-sm mb-3">Marketplace B2B con +5,000 productos.</p>
-                                <div class="flex items-center text-quetzal-green"><i
-                                        class="fas fa-shopping-cart mr-2"></i><span class="text-sm font-medium">+200
-                                        vendors</span></div>
-                            </div>
-                        </div>
-                        <div class="project-card reveal" style="height: 380px;"><img
-                                src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80"
-                                alt="HealthTech" class="project-image">
-                            <div class="project-overlay">
-                                <div class="mb-3"><span class="project-tag">React Native</span><span
-                                        class="project-tag">Firebase</span><span class="project-tag">Redux</span></div>
-                                <h4 class="text-2xl font-bold text-white mb-2">VitalCheck</h4>
-                                <p class="text-gray-300 text-sm mb-3">App de telemedicina con 50,000+ descargas.</p>
-                                <div class="flex items-center text-quetzal-green"><i
-                                        class="fas fa-heartbeat mr-2"></i><span class="text-sm font-medium">4.8 ★ en
-                                        stores</span></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="text-center mt-12 reveal"><a href="#contacto" onclick="scrollToSection('contacto')"
-                            class="inline-flex items-center gap-2 px-8 py-4 rounded-full font-semibold text-white bg-gradient-to-r from-quetzal-green to-quetzal-blue hover:shadow-[0_0_20px_rgba(6,182,212,0.5)] transition-all duration-300 transform hover:-translate-y-1">VER
-                            TODOS LOS PROYECTOS <i class="fas fa-arrow-right ml-1"></i></a></div>
-                </div>
-            </section>
+
 
             <!-- NOSOTROS -->
             <section id="nosotros" class="nosotros-fullscreen">
@@ -802,15 +715,17 @@
                                 <h3>Donovan Eduardo Contreras Díaz</h3>
                                 <div class="cargo"><i class="fas fa-mobile-alt mr-2 text-quetzal-green"></i>Ingeniero en
                                     Computación</div>
-                                <p>Ingeniero en Sistemas, egresado del IPN, apasionado por React Native, Flutter e
-                                    inteligencia artificial. Ha desarrollado más de 12 aplicaciones móviles con miles de
-                                    descargas activas. Experto en UX móvil y modelos ML para predicción.</p>
+                                <p>Ingeniero en Computación | ESIME Culhuacán, IPN
+                                    Desarrollo web y automatización de procesos.
+                                    Analizo, adapto y depuro código generado por IA para construir soluciones reales,
+                                    seguras y eficientes.
+                                    Mentalidad investigativa, pensamiento crítico y aprendizaje continuo.</p>
                                 <p><strong class="text-quetzal-green">Proyectos destacados:</strong></p>
                                 <div class="flex flex-wrap gap-2 mt-2">
-                                    <span class="badge-proyecto">Sistema conversacional con IA para extracción de
-                                        información en documentos</span>
-                                    <span class="badge-proyecto">EcoTrack (IoT + Mobile)</span>
+                                    <span class="badge-proyecto">Sistema conversacional basado en IA y PLN para consulta
+                                        de documentos</span>
                                     <span class="badge-proyecto">Creación de página web QuetzalCode</span>
+                                    <span class="badge-proyecto">Página Web para Colectivo de DJs STAR EYES</span>
                                 </div>
                             </div>
                         </div>
@@ -870,43 +785,7 @@
             </section>
         </div>
 
-        <!-- Páginas detalle abstractas (simplificadas para mantener funcionalidad) -->
-        <div id="servicio-web-page" class="servicio-detalle-page">
-            <div class="max-w-5xl mx-auto px-4 py-12">
-                <div class="servicio-detalle-card"><button onclick="closeServicioDetalle()"
-                        class="mb-6 text-quetzal-green"><i class="fas fa-arrow-left"></i> Volver</button>
-                    <h2 class="text-3xl font-bold text-white mb-4">Desarrollo Web Custom</h2>
-                    <p class="text-gray-300">Presupuestos personalizados según alcance. Contáctanos para más
-                        información.</p><button onclick="closeServicioDetalle(); scrollToSection('contacto')"
-                        class="mt-6 px-6 py-3 rounded-full bg-quetzal-green text-black font-bold">Solicitar
-                        cotización</button>
-                </div>
-            </div>
-        </div>
-        <div id="servicio-apps-page" class="servicio-detalle-page">
-            <div class="max-w-5xl mx-auto px-4 py-12">
-                <div class="servicio-detalle-card"><button onclick="closeServicioDetalle()"
-                        class="mb-6 text-quetzal-green"><i class="fas fa-arrow-left"></i> Volver</button>
-                    <h2 class="text-3xl font-bold text-white mb-4">Apps Móviles</h2>
-                    <p class="text-gray-300">Soluciones nativas y multiplataforma, diseño intuitivo y alta performance.
-                    </p><button onclick="closeServicioDetalle(); scrollToSection('contacto')"
-                        class="mt-6 px-6 py-3 rounded-full bg-quetzal-green text-black font-bold">Solicitar
-                        cotización</button>
-                </div>
-            </div>
-        </div>
-        <div id="servicio-cloud-page" class="servicio-detalle-page">
-            <div class="max-w-5xl mx-auto px-4 py-12">
-                <div class="servicio-detalle-card"><button onclick="closeServicioDetalle()"
-                        class="mb-6 text-quetzal-green"><i class="fas fa-arrow-left"></i> Volver</button>
-                    <h2 class="text-3xl font-bold text-white mb-4">Consultoría Cloud</h2>
-                    <p class="text-gray-300">Migración, optimización y gestión de infraestructura en AWS/Azure/GCP.</p>
-                    <button onclick="closeServicioDetalle(); scrollToSection('contacto')"
-                        class="mt-6 px-6 py-3 rounded-full bg-quetzal-green text-black font-bold">Solicitar
-                        cotización</button>
-                </div>
-            </div>
-        </div>
+
 
         <!-- FOOTER -->
         <footer class="footer-black relative z-10 pt-16 pb-8">
@@ -927,8 +806,7 @@
                                     class="hover:text-quetzal-green">Inicio</a></li>
                             <li><a href="#servicios" onclick="scrollToSection('servicios')"
                                     class="hover:text-quetzal-green">Servicios</a></li>
-                            <li><a href="#proyectos" onclick="scrollToSection('proyectos')"
-                                    class="hover:text-quetzal-green">Proyectos</a></li>
+
                             <li><a href="#nosotros" onclick="scrollToSection('nosotros')"
                                     class="hover:text-quetzal-green">Nosotros</a></li>
                             <li><a href="#contacto" onclick="scrollToSection('contacto')"
@@ -987,7 +865,7 @@
         function scrollToSection(sectionId) { closeServicioDetalle(); let sec = document.getElementById(sectionId); if (sec) sec.scrollIntoView({ behavior: 'smooth' }); updateActiveLink(sectionId); document.getElementById('mobile-menu')?.classList.add('hidden'); document.getElementById('dropdownMenu')?.classList.remove('show'); }
         function openServicioDetalle(s) { document.getElementById('main-page').style.display = 'none'; document.querySelectorAll('.servicio-detalle-page').forEach(p => p.classList.remove('active')); let p = document.getElementById('servicio-' + s + '-page'); if (p) { p.classList.add('active'); window.scrollTo(0, 0); } updateActiveLink('servicios'); document.getElementById('dropdownMenu')?.classList.remove('show'); document.getElementById('mobile-menu')?.classList.add('hidden'); }
         function closeServicioDetalle() { document.getElementById('main-page').style.display = 'block'; document.querySelectorAll('.servicio-detalle-page').forEach(p => p.classList.remove('active')); }
-        function onScroll() { let secs = ['inicio', 'servicios', 'proyectos', 'nosotros', 'contacto']; let cur = currentSection; for (let id of secs) { let el = document.getElementById(id); if (el) { let r = el.getBoundingClientRect(); if (r.top <= 150 && r.bottom >= 150) { cur = id; break; } } } if (cur !== currentSection) updateActiveLink(cur); }
+        function onScroll() { let secs = ['inicio', 'servicios', 'nosotros', 'contacto']; let cur = currentSection; for (let id of secs) { let el = document.getElementById(id); if (el) { let r = el.getBoundingClientRect(); if (r.top <= 150 && r.bottom >= 150) { cur = id; break; } } } if (cur !== currentSection) updateActiveLink(cur); }
         document.addEventListener('DOMContentLoaded', () => {
             window.addEventListener('scroll', onScroll);
             let btn = document.getElementById('mobile-menu-btn'), menu = document.getElementById('mobile-menu');
